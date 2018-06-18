@@ -124,13 +124,13 @@ public class Cadastro extends AppCompatActivity {
         }
     }
 
-    private void alerta_sem_conexao() {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View formElementsView = inflater.inflate(R.layout.sem_internet_cadastro_layout,null, false);
+        private void alerta_sem_conexao() {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View formElementsView = inflater.inflate(R.layout.sem_internet_cadastro_layout,null, false);
 
-        new AlertDialog.Builder(Cadastro.this).setView(formElementsView)
-                .setCancelable(false)
-                .setPositiveButton("OK", null)
-                .show();
-    }
+            new AlertDialog.Builder(Cadastro.this).setView(formElementsView)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
 }
