@@ -1,11 +1,16 @@
 package com.digipower.digipower;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +32,7 @@ public class Cadastro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cadastro_layout);
 
+        testa_conexao_internet();
         componentes();
         botoes();
     }
@@ -62,8 +68,9 @@ public class Cadastro extends AppCompatActivity {
 //                    String senha = campo_senha.getText().toString().trim();
 //                    criauser(email, senha);
 //                }
-                if(campo_email.getText().length()==0 || (campo_senha.getText().length()==0) || (campo_confirma_senha.getText().length()==0)) {
-                    atencao("Os campos 'E-mail', 'Senha' ou 'Confirmar senha' não podem ficar vazio! Preencha-os.");
+                if(campo_email.getText().length()==0) {
+                    atencao("Digite um e-mail válido!");
+                    campo_email.setFocusable(true);
                 } else if((campo_senha.getText().length()<6 || (campo_confirma_senha.getText().length()==0))) {
                     atencao("Os campos 'Senha' e 'Confirmar senha' devem ter no minímo 6 caracteres! verifique.");
                 }else {
@@ -103,4 +110,25 @@ public class Cadastro extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
+
+//    ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ conexão com a internet ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+    private void testa_conexao_internet() {
+        ConnectivityManager acesso = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = acesso.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()){}
+        else{
+            alerta_sem_conexao();
+        }
+    }
+
+        private void alerta_sem_conexao() {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View formElementsView = inflater.inflate(R.layout.sem_internet_cadastro_layout,null, false);
+
+            new AlertDialog.Builder(Cadastro.this).setView(formElementsView)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
 }

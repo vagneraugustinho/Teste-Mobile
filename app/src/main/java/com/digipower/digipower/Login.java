@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -45,29 +47,52 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 
         componentes();
         botoes();
+        testa_conexao_internet();
     }
-    //    ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ METODOS ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-    private void botoes() {
-        entrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            String email = campo_email.getText().toString().trim();
-            String senha = campo_senha.getText().toString().trim();
 
-            if (campo_email.getText().toString().trim().isEmpty() || campo_email == null) {
-                campo_email.setError("O campo e-mail não pode ficar vazio!");
-            } else if (campo_senha.getText().toString().trim().isEmpty() || campo_senha == null) {
-                campo_senha.setError("O campo senha não pode ficar vazio!");
-            }else{
-                login(email, senha);
-            }
-            }
-        });
+    //    ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ METODOS ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
+
+    private void testa_conexao_internet() {
+        ConnectivityManager acesso = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = acesso.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()){}
+        else{
+            alerta_sem_conexao();
+        }
     }
+
+     private void alerta_sem_conexao() {
+         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+         final View formElementsView = inflater.inflate(R.layout.sem_internet_layout,null, false);
+
+         new AlertDialog.Builder(Login.this).setView(formElementsView)
+                 .setCancelable(false)
+                 .setPositiveButton("OK", null)
+                 .show();
+        }
+
+        private void botoes() {
+            entrar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                String email = campo_email.getText().toString().trim();
+                String senha = campo_senha.getText().toString().trim();
+
+                if (campo_email.getText().toString().trim().isEmpty() || campo_email == null) {
+                    campo_email.setError("O campo e-mail não pode ficar vazio!");
+                } else if (campo_senha.getText().toString().trim().isEmpty() || campo_senha == null) {
+                    campo_senha.setError("O campo senha não pode ficar vazio!");
+                }else{
+                    login(email, senha);
+                }
+                }
+            });
+        }
 
     private void componentes(){
         entrar = (Button) findViewById(R.id.id_btnEntrar);
@@ -108,7 +133,7 @@ public class Login extends AppCompatActivity {
     }
 
     // ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ layout reset senha ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-    public void alert_reset_senha() {
+     public void alert_reset_senha() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View formElementsView = inflater.inflate(R.layout.reset_senha_layout,null, false);
         final EditText nameEditText = (EditText) formElementsView.findViewById(R.id.id_email_reset);
