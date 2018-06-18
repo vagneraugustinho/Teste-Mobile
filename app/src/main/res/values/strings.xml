@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DigiPower</string>
+    <string name="login">Login</string>
+    <string name="email">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="ConfirmarSenha">Confirmar senha</string>
+</resources>

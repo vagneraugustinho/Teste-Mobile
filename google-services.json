@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "590941219833",
+    "firebase_url": "https://testemobile-f5fad.firebaseio.com",
+    "project_id": "testemobile-f5fad",
+    "storage_bucket": "testemobile-f5fad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590941219833:android:8e9a0c09b87cb1a6",
+        "android_client_info": {
+          "package_name": "com.digipower.digipower"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590941219833-1upqgk3r7cmcnvk0dcpkl0m7gst69fuh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.digipower.digipower",
+            "certificate_hash": "a00810a1d15f77993d41d5a70802b36c6de724b8"
+          }
+        },
+        {
+          "client_id": "590941219833-osnn0bvfvqbid3thick3i6ph6054nfd3.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "590941219833-osnn0bvfvqbid3thick3i6ph6054nfd3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOzmvIUMBQBqXFd8awACHgD60DHC5IZys"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590941219833-osnn0bvfvqbid3thick3i6ph6054nfd3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
