@@ -1,6 +1,8 @@
 package com.digipower.digipower;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -52,29 +54,17 @@ public class Cadastro extends AppCompatActivity {
         btn_cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(campo_email.getText().length()==0) {
-//                    campo_email.setError("Campo vazio! insira um e-mail válido.");
-//                }else if((campo_senha.getText().length()==0)) {
-//                    campo_senha.setError("Campo vazio! Informe uma senha.");
-//                }else if((campo_senha.getText().length()<6)) {
-//                    campo_senha.setError("Informe no minímo 6 caracteres!");
-//                }else if((campo_confirma_senha.getText().length()==0)) {
-//                    campo_confirma_senha.setError("Campo vazio! verifique.");
-//                }else if( campo_confirma_senha.length()<6) {
-//                    campo_confirma_senha.setError("Repita a senha informada no campo senha!");
-//                }else {
-//                    Snackbar.make(view, "E-mail já cadastrado! faça login ou tente recuperar a senha", Snackbar.LENGTH_LONG).setAction("Action",null).show();
-//                    String email = campo_email.getText().toString().trim();
-//                    String senha = campo_senha.getText().toString().trim();
-//                    criauser(email, senha);
-//                }
                 if(campo_email.getText().length()==0) {
-                    atencao("Digite um e-mail válido!");
-                    campo_email.setFocusable(true);
-                } else if((campo_senha.getText().length()<6 || (campo_confirma_senha.getText().length()==0))) {
-                    atencao("Os campos 'Senha' e 'Confirmar senha' devem ter no minímo 6 caracteres! verifique.");
+                    campo_email.setError("Digite um e-mail válido!");
+                    campo_email.requestFocus();
+                }else if(campo_senha.getText().length()== 0 || campo_senha.getText().length()<6) {
+                    campo_senha.setError("O campo senha não pode ficar vazio e deve ter no minímo 6 caracteres");
+                    campo_senha.requestFocus();
+                }else if(campo_confirma_senha.getText().length() != campo_senha.getText().length()){
+                    campo_confirma_senha.setError("As senhas devem ser iguais! Repita a senha.");
+                    campo_confirma_senha.setText("");
+                    campo_confirma_senha.requestFocus();
                 }else {
-                    Snackbar.make(view, "E-mail já cadastrado! faça login ou tente recuperar a senha", Snackbar.LENGTH_LONG).setAction("Action",null).show();
                     String email = campo_email.getText().toString().trim();
                     String senha = campo_senha.getText().toString().trim();
                     criauser(email, senha);
@@ -82,9 +72,7 @@ public class Cadastro extends AppCompatActivity {
             }
         });
     }
-//    public void Cadastrar(View view){
-//        Toast.makeText(getApplicationContext(),"Voce clicou em cadastrar se ",Toast.LENGTH_LONG).show();
-//    }
+
     private void criauser(String email, String senha) {
         auth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(Cadastro.this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -94,10 +82,24 @@ public class Cadastro extends AppCompatActivity {
                     startActivity(new Intent(Cadastro.this, Home.class));
                     finish();
                 }else{
-                    atencao("Erro ao cadastrar usuário!");
+                    alerta_erro_cadastro();
                 }
             }
         });
+    }
+
+    public void alerta_erro_cadastro() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View formElementsView = inflater.inflate(R.layout.erro_cadastro_layout,null, false);
+
+        new AlertDialog.Builder(Cadastro.this).setView(formElementsView)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @TargetApi(11)
+                    public void onClick(DialogInterface dialog, int id) {
+                        campo_email.requestFocus();
+                    }
+                }).show();
     }
 
     @Override
@@ -122,13 +124,13 @@ public class Cadastro extends AppCompatActivity {
         }
     }
 
-        private void alerta_sem_conexao() {
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View formElementsView = inflater.inflate(R.layout.sem_internet_cadastro_layout,null, false);
+    private void alerta_sem_conexao() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View formElementsView = inflater.inflate(R.layout.sem_internet_cadastro_layout,null, false);
 
-            new AlertDialog.Builder(Cadastro.this).setView(formElementsView)
-                    .setCancelable(false)
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
+        new AlertDialog.Builder(Cadastro.this).setView(formElementsView)
+                .setCancelable(false)
+                .setPositiveButton("OK", null)
+                .show();
+    }
 }

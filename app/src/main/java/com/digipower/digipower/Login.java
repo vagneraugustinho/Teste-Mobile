@@ -85,8 +85,10 @@ public class Login extends AppCompatActivity {
 
                 if (campo_email.getText().toString().trim().isEmpty() || campo_email == null) {
                     campo_email.setError("O campo e-mail não pode ficar vazio!");
+                    campo_email.requestFocus();
                 } else if (campo_senha.getText().toString().trim().isEmpty() || campo_senha == null) {
                     campo_senha.setError("O campo senha não pode ficar vazio!");
+                    campo_senha.requestFocus();
                 }else{
                     login(email, senha);
                 }
